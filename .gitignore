@@ -6,3 +6,7 @@ node_modules
 
 ### WebStorm ###
 .idea
+
+### Firebase ###
+.firebaserc
+
