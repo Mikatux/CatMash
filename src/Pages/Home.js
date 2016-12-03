@@ -3,8 +3,9 @@ import logo from '../logo.jpg';
 import '../Styles/Home.css';
 import firebase from 'firebase';
 import firebaseConfig from '../../firebaseConfig.js';
-//var app = firebase.initializeApp({ firebaseConfig });
-class App extends Component {
+const app = firebase.initializeApp({ firebaseConfig });
+
+class Home extends Component {
   render() {
     return (
       <div className="Home">
@@ -19,4 +20,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;
