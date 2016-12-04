@@ -13,9 +13,9 @@ class Home extends Component {
   render() {
     let loginButton = null;
     if (this.props.userName) {
-      loginButton = <span onClick={Facebook.userSingOut}>Deconnection</span>;
+      loginButton = <span className="loginButton" onClick={Facebook.userSingOut}>Deconnection</span>;
     } else {
-      loginButton = <span onClick={Facebook.userSingIn}>Connection</span>;
+      loginButton = <span className="loginButton" onClick={Facebook.userSingIn}>Connection</span>;
     }
     return (
       <div className="TopBar">
