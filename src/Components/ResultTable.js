@@ -4,10 +4,8 @@
 import React, {Component} from 'react';
 import {Grid, Cell, Card} from 'react-mdl';
 import '../Styles/ResultTable.css';
-import GameCard from './GameCard'
 import firebase from 'firebase';
 import catmashLogo from '../../public/catmash.png';
-import {DataTable, TableHeader} from 'react-mdl';
 
 class ResultTable extends Component {
 
@@ -53,7 +51,7 @@ class ResultTable extends Component {
       return (
         <div className="ResultTable">
           {this.state.table.map((cat) => {
-            return <div className="ResultItem" key={cat.id} ><img src={cat.imgUrl}/>
+            return <div className="ResultItem" key={cat.id} ><img src={cat.imgUrl} alt="cat"/>
               <div className="ResultVote">{cat.voteNumber}</div>
             </div>;
           })

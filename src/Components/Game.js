@@ -10,20 +10,18 @@ import catmashLogo from '../../public/catmash.png';
 
 class Game extends Component {
 
-  playerVote(id) {
-    console.log(id);
+  playerVote(cat) {
     firebase.database().ref('votes/').push({
-      winnerId: id,
-      firstCatId: this.state.game[0].id,
-      secondCatId: this.state.game[1].id,
+      winner: cat,
+      firstCat: this.state.game[0],
+      secondCat: this.state.game[1],
       playerId: firebase.auth().currentUser.uid
     });
-    this.setNextGame()
-
+    this.setNextGame();
   }
 
   componentWillMount() {
-    this.setNextGame()
+    this.setNextGame();
   }
 
   constructor(props) {
@@ -63,13 +61,13 @@ class Game extends Component {
       return (
         <div className="Game">
           <Grid>
-            <Cell col={6} onClick={() => this.playerVote(this.state.game[0].id)}>
+            <Cell col={6} onClick={() => this.playerVote(this.state.game[0])}>
               <GameCard bgColor="#BDBDBD" imgUrl={this.state.game[0].imgUrl}/>
             </Cell>
             <div className="gameMiddleImage">
               <img src={catmashLogo} alt="logo"/>
             </div>
-            <Cell col={6} onClick={() => this.playerVote(this.state.game[1].id)}>
+            <Cell col={6} onClick={() => this.playerVote(this.state.game[1])}>
               <GameCard bgColor="#7986CB" imgUrl={this.state.game[1].imgUrl}/>
             </Cell>
           </Grid>
