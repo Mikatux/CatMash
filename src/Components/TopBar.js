@@ -13,13 +13,13 @@ class Home extends Component {
   render() {
     let loginButton = null;
     if (this.props.userName) {
-      loginButton = <span className="loginButton" onClick={Facebook.userSingOut}>Deconnection</span>;
+      loginButton = <span className="loginButton" onClick={Facebook.userSingOut}>Deconnexion</span>;
     } else {
-      loginButton = <span className="loginButton" onClick={Facebook.userSingIn}>Connection</span>;
+      loginButton = <span className="loginButton" onClick={Facebook.userSingIn}>Connexion</span>;
     }
     return (
       <div className="TopBar">
-        <Header transparent title={<img src={logo} style={{float: 'left',height:'64px'}} alt="CatMash logo"/>}>
+        <Header transparent title={ <Link to="/"><img src={logo} style={{float: 'left',height:'64px'}} alt="CatMash logo"/></Link>}>
           <Navigation>
             <Link to="/about">A Propos</Link>
             <Link to="/results">Résultats</Link>
