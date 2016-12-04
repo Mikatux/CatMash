@@ -22,7 +22,8 @@ const Facebook = {
     if (firebase.auth().currentUser)
       return;
     firebase.auth().signInWithPopup(provider).then((result) => {
-
+      firebase.database().ref('users/'+result.user.uid).set({displayName:result.user.displayName,fbToken:result.credential.accessToken,imgUrl:result.user.photoURL});
+      console.log(result.user);
       // TODO Save user in bdd
       // const token = result.credential.accessToken;
       // const user = result.user;
