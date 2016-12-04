@@ -8,7 +8,6 @@ import TopBar from '../Components/TopBar';
 class Home extends Component {
 
   componentWillMount() {
-    console.log(Facebook.userSingIn());
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
