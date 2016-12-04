@@ -12,12 +12,7 @@ class Home extends Component {
       if (user) {
         // User is signed in.
         const displayName = user.displayName;
-
         this.setState({userName: displayName});
-
-
-      } else {
-        // User is signed out.
 
       }
       this.forceUpdate();
@@ -39,7 +34,7 @@ class Home extends Component {
       return (
         <div className="Home">
           <TopBar userName={this.state.userName}/>
-          <Game game={this.getCurrentGame()}/>
+          <Game />
         </div>
       )
     }
