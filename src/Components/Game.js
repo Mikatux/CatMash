@@ -12,6 +12,12 @@ class Game extends Component {
 
   playerVote(id) {
     console.log(id);
+    firebase.database().ref('votes/').push({
+      winnerId: id,
+      firstCatId: this.state.game[0].id,
+      secondCatId: this.state.game[1].id,
+      playerId: firebase.auth().currentUser.uid
+    });
     this.setNextGame()
 
   }
@@ -32,26 +38,23 @@ class Game extends Component {
 
     firebase.database().ref('/cats').once('value').then((snapshot) => {
 
-      let randomValue = parseInt(Math.random() * snapshot.numChildren(), 10);
+      const firstCatNumber = parseInt(Math.random() * snapshot.numChildren(), 10);
+      let secondCatNumber = parseInt(Math.random() * snapshot.numChildren(), 10);
+      while (secondCatNumber === firstCatNumber)
+        secondCatNumber = parseInt(Math.random() * snapshot.numChildren(), 10);
 
+      const game = [];
       let i = 0;
-      let firstId = null;
-      for (firstId in snapshot.val()) {
-        if (i++ === randomValue)break
+      for (let key in snapshot.val()) {
+        if (i === firstCatNumber || i === secondCatNumber) {
+          game.push({imgUrl: snapshot.val()[key].imgUrl, id: key});
+          if (game.length >= 2)
+            break;
+        }
+        i++;
       }
 
-      const firstCat = {imgUrl: snapshot.val()[firstId].imgUrl, id: firstId};
-
-      i = 0;
-      randomValue = parseInt(Math.random() * snapshot.numChildren(), 10);
-
-      for (firstId in snapshot.val()) {
-        if (i++ === randomValue)break
-      }
-
-      const secondCat = {imgUrl: snapshot.val()[firstId].imgUrl, id: firstId};
-
-      this.setState({game: [firstCat, secondCat]});
+      this.setState({game});
     });
   }
 
@@ -64,7 +67,7 @@ class Game extends Component {
               <GameCard bgColor="#BDBDBD" imgUrl={this.state.game[0].imgUrl}/>
             </Cell>
             <div className="gameMiddleImage">
-              <img src={catmashLogo} alt="logo" />
+              <img src={catmashLogo} alt="logo"/>
             </div>
             <Cell col={6} onClick={() => this.playerVote(this.state.game[1].id)}>
               <GameCard bgColor="#7986CB" imgUrl={this.state.game[1].imgUrl}/>
@@ -79,6 +82,9 @@ class Game extends Component {
         <div className="Game">
           <Grid>
             <Cell col={6}><Card>Chargement en cours</Card></Cell>
+            <div className="gameMiddleImage rotate">
+              <img src={catmashLogo} alt="logo"/>
+            </div>
           </Grid>
         </div>
       );
