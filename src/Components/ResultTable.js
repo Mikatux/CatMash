@@ -3,75 +3,62 @@
  */
 import React, {Component} from 'react';
 import {Grid, Cell, Card} from 'react-mdl';
-import '../Styles/Game.css';
+import '../Styles/ResultTable.css';
 import GameCard from './GameCard'
 import firebase from 'firebase';
 import catmashLogo from '../../public/catmash.png';
+import {DataTable, TableHeader} from 'react-mdl';
 
-class Game extends Component {
-
-  playerVote(id) {
-    console.log(id);
-    firebase.database().ref('votes/').push({
-      winnerId: id,
-      firstCatId: this.state.game[0].id,
-      secondCatId: this.state.game[1].id,
-      playerId: firebase.auth().currentUser.uid
-    });
-    this.setNextGame();
-  }
+class ResultTable extends Component {
 
   componentWillMount() {
-    this.setNextGame();
+    this.getInfos();
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      game: []
+      game: [],
+      nbTotalVote: 0
     }
   }
 
-  setNextGame() {
+  getInfos() {
     this.setState({game: []});
 
-    firebase.database().ref('/cats').once('value').then((snapshot) => {
-
-      const firstCatNumber = parseInt(Math.random() * snapshot.numChildren(), 10);
-      let secondCatNumber = parseInt(Math.random() * snapshot.numChildren(), 10);
-      while (secondCatNumber === firstCatNumber)
-        secondCatNumber = parseInt(Math.random() * snapshot.numChildren(), 10);
-
-      const game = [];
-      let i = 0;
+    firebase.database().ref('/votes').once('value').then((snapshot) => {
+      this.setState({nbTotalVote: snapshot.numChildren()});
+      const table = [];
       for (let key in snapshot.val()) {
-        if (i === firstCatNumber || i === secondCatNumber) {
-          game.push({imgUrl: snapshot.val()[key].imgUrl, id: key});
-          if (game.length >= 2)
-            break;
+        if (table.find((cat) => (cat.id === snapshot.val()[key].winner.id))) {
+          table.find((cat) => (cat.id === snapshot.val()[key].winner.id)).voteNumber++;
         }
-        i++;
-      }
+        else {
+          const cat = snapshot.val()[key].winner;
+          cat.voteNumber = 1;
+          table.push(cat);
+        }
 
-      this.setState({game});
+      }
+      table.sort(function (a, b) {
+        return (a.voteNumber < b.voteNumber) ? 1 : ((a.voteNumber > b.voteNumber) ? -1 : 0);
+      });
+
+      this.setState({table});
     });
   }
 
   render() {
-    if (this.state.game && this.state.game.length >= 2) {
+    if (this.state.table) {
       return (
-        <div className="Game">
-          <Grid>
-            <Cell col={6} onClick={() => this.playerVote(this.state.game[0].id)}>
-              <GameCard bgColor="#BDBDBD" imgUrl={this.state.game[0].imgUrl}/>
-            </Cell>
-            <div className="gameMiddleImage">
-              <img src={catmashLogo} alt="logo"/>
-            </div>
-            <Cell col={6} onClick={() => this.playerVote(this.state.game[1].id)}>
-              <GameCard bgColor="#7986CB" imgUrl={this.state.game[1].imgUrl}/>
-            </Cell>
-          </Grid>
+        <div className="ResultTable">
+          {this.state.table.map((cat) => {
+            return <div className="ResultItem" key={cat.id} ><img src={cat.imgUrl}/>
+              <div className="ResultVote">{cat.voteNumber}</div>
+            </div>;
+          })
+          }
+
         </div>
       );
     }
@@ -91,4 +78,4 @@ class Game extends Component {
   }
 }
 
-export default Game;
+export default ResultTable;
