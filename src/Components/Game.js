@@ -27,23 +27,30 @@ class Game extends Component {
   }
 
   setNextGame() {
-    return firebase.database().ref('/cats').once('value').then((snapshot) => {
+    this.setState({game: []});
 
-      let randomValue = parseInt(Math.random()*snapshot.numChildren())
+    firebase.database().ref('/cats').once('value').then((snapshot) => {
 
-      let i=0;
+      let randomValue = parseInt(Math.random() * snapshot.numChildren(),10);
+
+      let i = 0;
       let firstId = null;
-      for (firstId in snapshot.val()) { if(i++==randomValue)break};
-      const firstCat = {imgUrl:snapshot.val()[firstId].imgUrl,id:firstId};
+      for (firstId in snapshot.val()) {
+        if (i++ === randomValue)break
+      }
 
-      i=0;
-      randomValue = parseInt(Math.random()*snapshot.numChildren())
+      const firstCat = {imgUrl: snapshot.val()[firstId].imgUrl, id: firstId};
 
-      for (firstId in snapshot.val()) { if(i++==randomValue)break};
-      const secondCat = {imgUrl:snapshot.val()[firstId].imgUrl,id:firstId};
+      i = 0;
+      randomValue = parseInt(Math.random() * snapshot.numChildren(),10);
 
-      this.setState({game: []});
-      this.setState({game: [firstCat,secondCat]});
+      for (firstId in snapshot.val()) {
+        if (i++ === randomValue)break
+      }
+
+      const secondCat = {imgUrl: snapshot.val()[firstId].imgUrl, id: firstId};
+
+        this.setState({game: [firstCat, secondCat]});
     });
   }
 
