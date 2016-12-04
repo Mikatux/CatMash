@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import logo from '../logo.jpg';
 import '../Styles/Home.css';
 import firebase from 'firebase';
 import Facebook from '../Core/Facebook';
@@ -12,13 +11,8 @@ class Home extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
-        var displayName = user.displayName;
-        var email = user.email;
-        var emailVerified = user.emailVerified;
-        var photoURL = user.photoURL;
-        var isAnonymous = user.isAnonymous;
-        var uid = user.uid;
-        var providerData = user.providerData;
+        const displayName = user.displayName;
+
         this.setState({userName: displayName});
 
 
