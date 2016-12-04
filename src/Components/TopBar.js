@@ -19,7 +19,7 @@ class Home extends Component {
     }
       return (
         <div className="TopBar">
-          <Header transparent title="Title" style={{color: 'white'}}>
+          <Header transparent title="CatMash" style={{color: 'white'}}>
             <Navigation>
               <Link to="/about">A Propos</Link>
               { loginButton }
