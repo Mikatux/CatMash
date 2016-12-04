@@ -5,6 +5,7 @@ import { Router, Route, browserHistory } from 'react-router'
 import Home from './Pages/Home';
 import About from './Pages/About';
 import NotFound from './Pages/NotFound';
+import Results from './Pages/Results';
 import './index.css';
 import 'react-mdl/extra/material.css';
 import 'react-mdl/extra/material.js';
@@ -17,6 +18,7 @@ render((
   <Router history={browserHistory}>
     <Route path="/" component={Home}/>
     <Route path="/about" component={About}/>
+    <Route path="/results" component={Results}/>
     <Route path="*" component={NotFound}/>
   </Router>
 ), document.getElementById('root'));

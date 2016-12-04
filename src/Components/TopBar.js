@@ -22,6 +22,7 @@ class Home extends Component {
         <Header transparent title={<img src={logo} style={{float: 'left',height:'64px'}} alt="CatMash logo"/>}>
           <Navigation>
             <Link to="/about">A Propos</Link>
+            <Link to="/results">Résultats</Link>
             { loginButton }
           </Navigation>
         </Header>
