@@ -6,7 +6,8 @@ import Home from './Pages/Home';
 import About from './Pages/About';
 import NotFound from './Pages/NotFound';
 import './index.css';
-
+import 'react-mdl/extra/material.css';
+import 'react-mdl/extra/material.js';
 import firebase from 'firebase';
 import firebaseConfig from '../firebaseConfig.js';
 firebase.initializeApp(firebaseConfig);
