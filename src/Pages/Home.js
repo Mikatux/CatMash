@@ -3,12 +3,13 @@ import logo from '../logo.jpg';
 import '../Styles/Home.css';
 import firebase from 'firebase';
 import Facebook from '../Core/Facebook';
+import TopBar from '../Components/TopBar';
 
 class Home extends Component {
 
   componentWillMount() {
     console.log(Facebook.userSingIn());
-    firebase.auth().onAuthStateChanged((user)=> {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
         var displayName = user.displayName;
@@ -18,7 +19,7 @@ class Home extends Component {
         var isAnonymous = user.isAnonymous;
         var uid = user.uid;
         var providerData = user.providerData;
-        this.setState({userName:displayName});
+        this.setState({userName: displayName});
 
 
       } else {
@@ -28,20 +29,19 @@ class Home extends Component {
       this.forceUpdate();
     });
   }
+
   constructor(props) {
     super(props);
     this.state = {
       userName: ''
     };
   }
+
   render() {
     if (Facebook.userIsLogged()) {
       return (
         <div className="Home">
-          <div className="Home-header">
-            <img src={logo} className="Home-logo" alt="logo"/>
-            <h2>Bienvenue sur CatMash</h2>
-          </div>
+          <TopBar userName={this.state.userName}/>
           <p className="Home-intro">
             Bonjour {this.state.userName}
           </p>
@@ -51,10 +51,7 @@ class Home extends Component {
     else
       return (
         <div className="Home">
-          <div className="Home-header">
-            <img src={logo} className="Home-logo" alt="logo"/>
-            <h2>Bienvenue sur CatMash</h2>
-          </div>
+          <TopBar/>
           <p className="Home-intro">
             Merci de vous connecter pour acceder aux informations
           </p>

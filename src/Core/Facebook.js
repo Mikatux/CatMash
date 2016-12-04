@@ -7,12 +7,19 @@ provider.setCustomParameters({
   'display': 'popup'
 });
 
-const Facebook ={
-  userLoggedCallback : null,
-  userSingIn:function(){
-    if(firebase.auth().currentUser)
+const Facebook = {
+  userLoggedCallback: null,
+  userSingOut: function () {
+    firebase.auth().signOut().then(function () {
+      // Sign-out successful.
+    }, function (error) {
+      // An error happened.
+    });
+  },
+  userSingIn: function () {
+    if (firebase.auth().currentUser)
       return;
-    firebase.auth().signInWithPopup(provider).then((result)=> {
+    firebase.auth().signInWithPopup(provider).then((result) => {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var token = result.credential.accessToken;
       // The signed-in user info.
@@ -20,7 +27,7 @@ const Facebook ={
       // ...
       console.log(user)
 
-    }).catch((error)=> {
+    }).catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -28,12 +35,12 @@ const Facebook ={
       var email = error.email;
       // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential;
-      console.log('error '+error)
+      console.log('error ' + error)
 
     });
   },
-  userIsLogged:function(){
-    return firebase.auth().currentUser?true:false;
+  userIsLogged: function () {
+    return firebase.auth().currentUser ? true : false;
   },
 
 }
