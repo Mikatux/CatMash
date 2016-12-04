@@ -10,14 +10,23 @@ import 'react-mdl/extra/material.css';
 import 'react-mdl/extra/material.js';
 import firebase from 'firebase';
 import firebaseConfig from '../firebaseConfig.js';
+
 firebase.initializeApp(firebaseConfig);
-// Declarative route configuration (could also load this config lazily
-// instead, all you really need is a single root route, you don't need to
-// colocate the entire config).
+
 render((
   <Router history={browserHistory}>
     <Route path="/" component={Home}/>
     <Route path="/about" component={About}/>
     <Route path="*" component={NotFound}/>
   </Router>
-), document.getElementById('root'))
+), document.getElementById('root'));
+
+
+// Uncomment to add new cat in bdd
+/*
+import sampleData from '../cats';
+import FirebaseFunction from './Core/Firebase';
+console.log(sampleData)
+FirebaseFunction.importCatsInFirebase(sampleData);
+
+// */
