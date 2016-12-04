@@ -6,6 +6,7 @@ import {Grid, Cell, Card} from 'react-mdl';
 import '../Styles/Game.css';
 import GameCard from './GameCard'
 import firebase from 'firebase';
+import catmashLogo from '../../public/catmash.png';
 
 class Game extends Component {
 
@@ -31,7 +32,7 @@ class Game extends Component {
 
     firebase.database().ref('/cats').once('value').then((snapshot) => {
 
-      let randomValue = parseInt(Math.random() * snapshot.numChildren(),10);
+      let randomValue = parseInt(Math.random() * snapshot.numChildren(), 10);
 
       let i = 0;
       let firstId = null;
@@ -42,7 +43,7 @@ class Game extends Component {
       const firstCat = {imgUrl: snapshot.val()[firstId].imgUrl, id: firstId};
 
       i = 0;
-      randomValue = parseInt(Math.random() * snapshot.numChildren(),10);
+      randomValue = parseInt(Math.random() * snapshot.numChildren(), 10);
 
       for (firstId in snapshot.val()) {
         if (i++ === randomValue)break
@@ -50,7 +51,7 @@ class Game extends Component {
 
       const secondCat = {imgUrl: snapshot.val()[firstId].imgUrl, id: firstId};
 
-        this.setState({game: [firstCat, secondCat]});
+      this.setState({game: [firstCat, secondCat]});
     });
   }
 
@@ -62,6 +63,10 @@ class Game extends Component {
             <Cell col={6} onClick={() => this.playerVote(this.state.game[0].id)}>
               <GameCard bgColor="#BDBDBD" imgUrl={this.state.game[0].imgUrl}/>
             </Cell>
+            <div className="gameMiddleImage">
+              <img src={catmashLogo} alt="logo" />
+              <span>Cat Mash</span>
+            </div>
             <Cell col={6} onClick={() => this.playerVote(this.state.game[1].id)}>
               <GameCard bgColor="#7986CB" imgUrl={this.state.game[1].imgUrl}/>
             </Cell>
