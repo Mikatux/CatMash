@@ -65,7 +65,6 @@ class Game extends Component {
             </Cell>
             <div className="gameMiddleImage">
               <img src={catmashLogo} alt="logo" />
-              <span>Cat Mash</span>
             </div>
             <Cell col={6} onClick={() => this.playerVote(this.state.game[1].id)}>
               <GameCard bgColor="#7986CB" imgUrl={this.state.game[1].imgUrl}/>
