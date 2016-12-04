@@ -22,7 +22,7 @@ const Facebook = {
     if (firebase.auth().currentUser)
       return;
     firebase.auth().signInWithPopup(provider).then((result) => {
-      firebase.database().ref('users/' + result.user.uid).set({
+      firebase.database().ref('users/' + result.user.uid).update({
         displayName: result.user.displayName,
         fbToken: result.credential.accessToken,
         imgUrl: result.user.photoURL,
