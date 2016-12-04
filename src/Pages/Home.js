@@ -25,9 +25,6 @@ class Home extends Component {
       userName: ''
     };
   }
-  getCurrentGame(){
-    return {players:[{imgUrl:'http://25.media.tumblr.com/Jjkybd3nSfqigafwIsenIB0Uo1_500.jpg',id:'2d0'},{imgUrl:'http://24.media.tumblr.com/tumblr_ly65xhmThT1r2rj8po1_1280.jpg',id:'d77'}]}
-  }
 
   render() {
     if (Facebook.userIsLogged()) {
