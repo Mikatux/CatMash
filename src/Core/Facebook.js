@@ -22,11 +22,13 @@ const Facebook = {
     if (firebase.auth().currentUser)
       return;
     firebase.auth().signInWithPopup(provider).then((result) => {
-      firebase.database().ref('users/'+result.user.uid).set({displayName:result.user.displayName,fbToken:result.credential.accessToken,imgUrl:result.user.photoURL});
-      console.log(result.user);
-      // TODO Save user in bdd
-      // const token = result.credential.accessToken;
-      // const user = result.user;
+      firebase.database().ref('users/' + result.user.uid).set({
+        displayName: result.user.displayName,
+        fbToken: result.credential.accessToken,
+        imgUrl: result.user.photoURL,
+        email: result.user.email
+      });
+
 
     }).catch((error) => {
       // Handle Errors here maybe use this infos in a real Log further
