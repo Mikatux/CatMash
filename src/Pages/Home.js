@@ -1,22 +1,65 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from '../logo.jpg';
 import '../Styles/Home.css';
 import firebase from 'firebase';
-import firebaseConfig from '../../firebaseConfig.js';
-const app = firebase.initializeApp({ firebaseConfig });
+import Facebook from '../Core/Facebook';
 
 class Home extends Component {
+
+  componentWillMount() {
+    console.log(Facebook.userSingIn());
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        // User is signed in.
+        var displayName = user.displayName;
+        var email = user.email;
+        var emailVerified = user.emailVerified;
+        var photoURL = user.photoURL;
+        var isAnonymous = user.isAnonymous;
+        var uid = user.uid;
+        var providerData = user.providerData;
+        this.setState({userName:displayName});
+
+
+      } else {
+        // User is signed out.
+
+      }
+      this.forceUpdate();
+    });
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      userName: ''
+    };
+  }
   render() {
-    return (
-      <div className="Home">
-        <div className="Home-header">
-          <img src={logo} className="Home-logo" alt="logo" />
-          <h2>Welcome to CatMash</h2>
+    if (Facebook.userIsLogged()) {
+      return (
+        <div className="Home">
+          <div className="Home-header">
+            <img src={logo} className="Home-logo" alt="logo"/>
+            <h2>Bienvenue sur CatMash</h2>
+          </div>
+          <p className="Home-intro">
+            Bonjour {this.state.userName}
+          </p>
         </div>
-        <p className="Home-intro">
-        </p>
-      </div>
-    );
+      )
+    }
+    else
+      return (
+        <div className="Home">
+          <div className="Home-header">
+            <img src={logo} className="Home-logo" alt="logo"/>
+            <h2>Bienvenue sur CatMash</h2>
+          </div>
+          <p className="Home-intro">
+            Merci de vous connecter pour acceder aux informations
+          </p>
+        </div>
+      );
   }
 }
 
