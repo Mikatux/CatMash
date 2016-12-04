@@ -4,6 +4,7 @@ import '../Styles/Home.css';
 import firebase from 'firebase';
 import Facebook from '../Core/Facebook';
 import TopBar from '../Components/TopBar';
+import Game from '../Components/Game';
 
 class Home extends Component {
 
@@ -35,15 +36,16 @@ class Home extends Component {
       userName: ''
     };
   }
+  getCurrentGame(){
+    return {players:[{imgUrl:'http://25.media.tumblr.com/Jjkybd3nSfqigafwIsenIB0Uo1_500.jpg',id:'2d0'},{imgUrl:'http://24.media.tumblr.com/tumblr_ly65xhmThT1r2rj8po1_1280.jpg',id:'d77'}]}
+  }
 
   render() {
     if (Facebook.userIsLogged()) {
       return (
         <div className="Home">
           <TopBar userName={this.state.userName}/>
-          <p className="Home-intro">
-            Bonjour {this.state.userName}
-          </p>
+          <Game game={this.getCurrentGame()}/>
         </div>
       )
     }
