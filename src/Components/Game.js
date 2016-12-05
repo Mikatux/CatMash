@@ -40,11 +40,11 @@ class Game extends Component {
     firebase.database().ref('/cats').on('value', (snapshot) => {
       const catList = [];
       for (let key in snapshot.val()) {
-
-        const cat = snapshot.val()[key];
-        cat.id = key;
-        catList.push(cat);
-
+        if (snapshot.val().hasOwnProperty(key)) {
+          const cat = snapshot.val()[key];
+          cat.id = key;
+          catList.push(cat);
+        }
       }
       this.setState({catList});
 
@@ -52,7 +52,7 @@ class Game extends Component {
   }
 
   setNextGame() {
-    if (this.state.catList.length <= 0) {
+    if (this.state.catList.length <= 1) {
       this.setState({game: []});
       setTimeout(this.setNextGame.bind(this), 1000);
       return;
