@@ -21,39 +21,54 @@ class Game extends Component {
   }
 
   componentWillMount() {
+    this.loadFromFirebase();
     this.setNextGame();
+
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      game: []
+      game: [],
+      catList: []
+
     }
   }
 
-  setNextGame() {
-    this.setState({game: []});
+  loadFromFirebase() {
 
-    firebase.database().ref('/cats').once('value').then((snapshot) => {
-
-      const firstCatNumber = parseInt(Math.random() * snapshot.numChildren(), 10);
-      let secondCatNumber = parseInt(Math.random() * snapshot.numChildren(), 10);
-      while (secondCatNumber === firstCatNumber)
-        secondCatNumber = parseInt(Math.random() * snapshot.numChildren(), 10);
-
-      const game = [];
-      let i = 0;
+    firebase.database().ref('/cats').on('value', (snapshot) => {
+      const catList = [];
       for (let key in snapshot.val()) {
-        if (i === firstCatNumber || i === secondCatNumber) {
-          game.push({imgUrl: snapshot.val()[key].imgUrl, id: key});
-          if (game.length >= 2)
-            break;
-        }
-        i++;
-      }
 
-      this.setState({game});
+        const cat = snapshot.val()[key];
+        cat.id = key;
+        catList.push(cat);
+
+      }
+      this.setState({catList});
+
     });
+  }
+
+  setNextGame() {
+    if (this.state.catList.length <= 0) {
+      this.setState({game: []});
+      setTimeout(this.setNextGame.bind(this), 1000);
+      return;
+    }
+
+    const firstCatNumber = parseInt(Math.random() * this.state.catList.length, 10);
+    let secondCatNumber = parseInt(Math.random() * this.state.catList.length, 10);
+    while (secondCatNumber === firstCatNumber)
+      secondCatNumber = parseInt(Math.random() * this.state.catList.length, 10);
+
+    const game = [];
+
+    game.push(this.state.catList[firstCatNumber]);
+    game.push(this.state.catList[secondCatNumber]);
+
+    this.setState({game});
   }
 
   render() {
@@ -90,4 +105,6 @@ class Game extends Component {
   }
 }
 
-export default Game;
+export
+default
+Game;
