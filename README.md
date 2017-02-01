@@ -1,5 +1,5 @@
-# CatMash
-This is CatMash
+# A Cat Project
+This is a Cat Project
 
 CatMash est un site web vous permettant de voter pour votre chat préféré.
 
